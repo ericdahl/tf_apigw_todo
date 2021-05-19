@@ -106,7 +106,7 @@ resource "aws_lambda_permission" "items_get_apigw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.items_get.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:us-east-1:669361545709:j7tusaf2ig/*/*/items"
+  source_arn    = "${aws_apigatewayv2_api.default.execution_arn}*"
 }
 
 resource "aws_apigatewayv2_integration" "items_get" {
