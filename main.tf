@@ -71,8 +71,6 @@ resource "aws_apigatewayv2_deployment" "default" {
   depends_on = [
     aws_apigatewayv2_route.httpbin
   ]
-
-
 }
 
 resource "aws_apigatewayv2_integration" "httpbin" {
@@ -87,7 +85,6 @@ resource "aws_apigatewayv2_integration" "httpbin" {
 resource "aws_apigatewayv2_route" "httpbin" {
   api_id    = aws_apigatewayv2_api.default.id
   route_key = "GET /httpbin"
-  //  route_key = "$default"
 
   target = "integrations/${aws_apigatewayv2_integration.httpbin.id}"
 }
@@ -98,10 +95,7 @@ resource "aws_lambda_function" "items_get" {
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.8"
 
-//  filename = data.archive_file.items_get.output_path
-//  source_code_hash = filebase64sha256(data.archive_file.items_get.output_path)
-
-  filename = "${path.module}/lambda/items/target/get.zip"
+  filename         = "${path.module}/lambda/items/target/get.zip"
   source_code_hash = filebase64sha256("${path.module}/lambda/items/target/get.zip")
 }
 
@@ -131,13 +125,6 @@ resource "aws_apigatewayv2_route" "items_get" {
 }
 
 
-//data "archive_file" "items_get" {
-//  type        = "zip"
-//  output_path = "lambda/items/target/get.zip"
-//
-//  source_dir = "lambda/items/get"
-//}
-
 resource "aws_iam_role" "lambda" {
   name = "lambda"
 
@@ -165,7 +152,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 
 resource "aws_dynamodb_table" "items" {
   hash_key = "id"
-  name = "items"
+  name     = "items"
   attribute {
     name = "id"
     type = "S"
@@ -176,17 +163,13 @@ resource "aws_dynamodb_table" "items" {
 
 resource "aws_dynamodb_table_item" "items_test" {
 
-  hash_key = aws_dynamodb_table.items.hash_key
-//  item = {"id": {"S": "1"}}
+  hash_key   = aws_dynamodb_table.items.hash_key
   table_name = aws_dynamodb_table.items.name
 
-    item = <<ITEM
+  item = <<ITEM
 {
   "id": {"S": "1"},
-  "one": {"N": "11111"},
-  "two": {"N": "22222"},
-  "three": {"N": "33333"},
-  "four": {"N": "44444"}
+  "item": {"S": "get some work done"}
 }
 ITEM
 }
@@ -207,7 +190,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_get" {
-  role = aws_iam_role.lambda.name
+  role       = aws_iam_role.lambda.name
   policy_arn = aws_iam_policy.lambda_get.arn
 
 }

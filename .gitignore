@@ -9,5 +9,6 @@
 .venv/
 venv/
 target/
+__pycache__/
 
 **/*zip
