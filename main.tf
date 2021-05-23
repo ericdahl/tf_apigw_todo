@@ -161,7 +161,7 @@ resource "aws_dynamodb_table" "items" {
   billing_mode = "PAY_PER_REQUEST"
 }
 
-resource "aws_dynamodb_table_item" "items_test" {
+resource "aws_dynamodb_table_item" "items_test_1" {
 
   hash_key   = aws_dynamodb_table.items.hash_key
   table_name = aws_dynamodb_table.items.name
@@ -170,6 +170,19 @@ resource "aws_dynamodb_table_item" "items_test" {
 {
   "id": {"S": "1"},
   "item": {"S": "get some work done"}
+}
+ITEM
+}
+
+resource "aws_dynamodb_table_item" "items_test_2" {
+
+  hash_key   = aws_dynamodb_table.items.hash_key
+  table_name = aws_dynamodb_table.items.name
+
+  item = <<ITEM
+{
+  "id": {"S": "2"},
+  "item": {"S": "get some work done again"}
 }
 ITEM
 }
