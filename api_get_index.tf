@@ -25,6 +25,10 @@ resource "aws_lambda_function" "items_get" {
   source_code_hash = filebase64sha256("${path.module}/lambda/items/target/get_index.zip")
 }
 
+resource "aws_cloudwatch_log_group" "items_get" {
+  name = "/aws/lambda/${aws_lambda_function.items_get.function_name}"
+}
+
 resource "aws_lambda_permission" "items_get_apigw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.items_get.function_name
