@@ -147,8 +147,7 @@ resource "aws_iam_role" "lambda" {
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
+      "Effect": "Allow"
     }
   ]
 }
@@ -160,3 +159,14 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
   role       = aws_iam_role.lambda.name
 }
 
+
+resource "aws_dynamodb_table" "items" {
+  hash_key = "id"
+  name = "items"
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  billing_mode = "PAY_PER_REQUEST"
+}
