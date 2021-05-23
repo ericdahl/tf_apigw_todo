@@ -98,8 +98,11 @@ resource "aws_lambda_function" "items_get" {
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.8"
 
-  filename = "${path.module}/lambda/items/get.zip"
-  source_code_hash = filebase64sha256("${path.module}/lambda/items/get.zip")
+//  filename = data.archive_file.items_get.output_path
+//  source_code_hash = filebase64sha256(data.archive_file.items_get.output_path)
+
+  filename = "${path.module}/lambda/items/target/get.zip"
+  source_code_hash = filebase64sha256("${path.module}/lambda/items/target/get.zip")
 }
 
 resource "aws_lambda_permission" "items_get_apigw" {
@@ -128,12 +131,12 @@ resource "aws_apigatewayv2_route" "items_get" {
 }
 
 
-data "archive_file" "items_get" {
-  type        = "zip"
-  output_path = "lambda/items/get.zip"
-
-  source_dir = "lambda/items/get"
-}
+//data "archive_file" "items_get" {
+//  type        = "zip"
+//  output_path = "lambda/items/target/get.zip"
+//
+//  source_dir = "lambda/items/get"
+//}
 
 resource "aws_iam_role" "lambda" {
   name = "lambda"
@@ -169,4 +172,42 @@ resource "aws_dynamodb_table" "items" {
   }
 
   billing_mode = "PAY_PER_REQUEST"
+}
+
+resource "aws_dynamodb_table_item" "items_test" {
+
+  hash_key = aws_dynamodb_table.items.hash_key
+//  item = {"id": {"S": "1"}}
+  table_name = aws_dynamodb_table.items.name
+
+    item = <<ITEM
+{
+  "id": {"S": "1"},
+  "one": {"N": "11111"},
+  "two": {"N": "22222"},
+  "three": {"N": "33333"},
+  "four": {"N": "44444"}
+}
+ITEM
+}
+
+resource "aws_iam_policy" "lambda_get" {
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:us-east-1:669361545709:table/items"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_get" {
+  role = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_get.arn
+
 }
