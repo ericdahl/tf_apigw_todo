@@ -1,13 +1,23 @@
 .PHONY: test clean
 
-install: venv
+# install: package
+#
+package: venv package_get_index package_get_item
+
+package_get_index:
 	. ./target/venv/bin/activate; \
-	pip install -r get/requirements.txt -t target/package
-	cp get/*.py target/package/
-	(cd target/package && zip -r ../get.zip .)
+	pip install -r get/index/requirements.txt -t target/package
+	cp get/index/*.py target/package/
+	(cd target/package && zip -r ../get_index.zip .)
+	
+package_get_item:
+	. ./target/venv/bin/activate; \
+	pip install -r get/item/requirements.txt -t target/package
+	cp get/item/*.py target/package/
+	(cd target/package && zip -r ../get_item.zip .)
 
 clean:
 	rm -rf venv package
 
-venv: get/requirements.txt
+venv:
 	python3.7 -m venv target/venv
