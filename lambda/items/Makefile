@@ -2,7 +2,7 @@
 
 # install: package
 #
-package: venv package_get_index package_get_item
+package: venv package_get_index package_get_item package_post_item
 
 package_get_index:
 	. ./target/venv/bin/activate; \
@@ -15,6 +15,12 @@ package_get_item:
 	pip install -r get/item/requirements.txt -t target/package
 	cp get/item/*.py target/package/
 	(cd target/package && zip -r ../get_item.zip .)
+
+package_post_item:
+	. ./target/venv/bin/activate; \
+	pip install -r post/item/requirements.txt -t target/package
+	cp post/item/*.py target/package/
+	(cd target/package && zip -r ../post_item.zip .)
 
 clean:
 	rm -rf venv package

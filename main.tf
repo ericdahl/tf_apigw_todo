@@ -60,7 +60,9 @@ resource "aws_apigatewayv2_deployment" "default" {
       jsonencode(aws_apigatewayv2_integration.items_get_index),
       jsonencode(aws_apigatewayv2_route.items_get_index),
 
-      jsonencode(aws_lambda_function.items_get_index),
+    jsonencode(aws_lambda_function.items_get_index),
+    jsonencode(aws_lambda_function.items_post_item),
+
     )))
   }
 
