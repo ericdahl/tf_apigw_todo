@@ -57,10 +57,10 @@ resource "aws_apigatewayv2_deployment" "default" {
     redeployment = sha1(join(",", list(
       jsonencode(aws_apigatewayv2_integration.httpbin),
       jsonencode(aws_apigatewayv2_route.httpbin),
-      jsonencode(aws_apigatewayv2_integration.items_get),
-      jsonencode(aws_apigatewayv2_route.items_get),
+      jsonencode(aws_apigatewayv2_integration.items_get_index),
+      jsonencode(aws_apigatewayv2_route.items_get_index),
 
-      jsonencode(aws_lambda_function.items_get),
+      jsonencode(aws_lambda_function.items_get_index),
     )))
   }
 
