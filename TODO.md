@@ -1,6 +1,5 @@
 - API - put item
 - API mark as done  
 - lambda layers?
-- route53 alias
 - makefile dedup
 - web UI?
