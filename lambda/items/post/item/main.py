@@ -2,8 +2,8 @@ import json
 import boto3
 import base64
 import uuid
+import datetime
 from boto3_type_annotations.dynamodb import ServiceResource
-from boto3.dynamodb.conditions import Key
 
 dynamodb: ServiceResource = boto3.resource('dynamodb')
 items = dynamodb.Table('items')
@@ -17,22 +17,19 @@ def handler(event, context):
         body = base64.b64decode(body)
     body = json.loads(body)
 
-    body["id"] = str(uuid.uuid4())
+    item = {
+        "id": str(uuid.uuid4()),
+        "item": body["item"],
+        "created": datetime.datetime.now(datetime.timezone.utc).isoformat()
+    }
 
-    items.put_item(Item=body)
+    items.put_item(Item=item)
 
     return body
 
-    # return event
-
-    # key = event['pathParameters']['item']
-    # response = items.query(KeyConditionExpression=Key('id').eq(key))
-    # return response['Items']
-
-
 if __name__ == '__main__':
     event = {
-          "body": "eyJzb21ldGhpbmciOiB0cnVlfQ==",
+          "body": "eyJpdGVtIjogImZvb2JhciJ9",
           "isBase64Encoded": True
     }
 
