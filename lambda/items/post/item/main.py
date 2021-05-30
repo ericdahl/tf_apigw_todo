@@ -12,10 +12,14 @@ items = dynamodb.Table('items')
 def handler(event, context):
     print('Received event: ' + json.dumps(event, indent=2))
 
-    body = event['body']
-    if bool(event['isBase64Encoded']):
-        body = base64.b64decode(body)
-    body = json.loads(body)
+    try:
+        body = parse(event)
+    except Exception as e:
+        return {
+            'statusCode': 401,
+            "body": "invalid input",
+            "headers": {"Content-Type": "application/json"}
+        }
 
     item = {
         "id": str(uuid.uuid4()),
@@ -25,12 +29,26 @@ def handler(event, context):
 
     items.put_item(Item=item)
 
-    return body
+    return {
+        "statusCode": 201
+    }
+
+
+def parse(event):
+    body = event['body']
+    if bool(event['isBase64Encoded']):
+        body = base64.b64decode(body)
+    body_json = json.loads(body)
+
+    return {
+        "item": body_json["item"]
+    }
+
 
 if __name__ == '__main__':
     event = {
-          "body": "eyJpdGVtIjogImZvb2JhciJ9",
-          "isBase64Encoded": True
+        "body": "eyJpdGVtIjogImZvb2JhciJ9zz",
+        "isBase64Encoded": True
     }
 
     print(handler(event, 0))

@@ -2,7 +2,7 @@
 
 # install: package
 #
-package: venv package_get_index package_get_item package_post_item
+package: venv package_get_index package_get_item package_post_item package_layer
 
 package_get_index:
 	. ./target/venv/bin/activate; \
@@ -21,6 +21,12 @@ package_post_item:
 	pip install -r post/item/requirements.txt -t target/package
 	cp post/item/*.py target/package/
 	(cd target/package && zip -r ../post_item.zip .)
+
+package_layer:
+	. ./target/venv/bin/activate; \
+	pip install -r layer/requirements.txt -t target/package/python
+	#cp post/item/*.py target/package/
+	(cd target/package && zip -r ../layer.zip .)
 
 clean:
 	rm -rf venv package
