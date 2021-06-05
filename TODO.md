@@ -1,5 +1,3 @@
-- API - put item
 - API mark as done  
 - makefile dedup
-- makefile avoid rebuilds
 - web UI?
