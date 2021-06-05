@@ -15,4 +15,4 @@ def handler(event, context):
 
 
 if __name__ == '__main__':
-    print(handler({'pathParameters': {'item':'1'}}, 0))
+    print(handler({'pathParameters': {'item': '1'}}, 0))
