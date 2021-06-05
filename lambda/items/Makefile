@@ -28,7 +28,7 @@ package_post_item:
 package_layer:
 	python3.7 -m venv target/venv_layer
 	. ./target/venv_layer/bin/activate; \
-	pip install -r layer/requirements.txt -t target/package_layer/python/lib/python3.8/site-packages
+	pip install -r layer/requirements.txt -t target/package_layer/python
 	(cd target/package_layer && zip -r ../layer.zip .)
 
 clean:

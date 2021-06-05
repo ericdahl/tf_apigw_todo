@@ -1,6 +1,5 @@
 - API - put item
 - API mark as done  
-- lambda layers?
 - makefile dedup
 - makefile avoid rebuilds
 - web UI?

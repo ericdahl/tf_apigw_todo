@@ -23,6 +23,8 @@ resource "aws_lambda_function" "items_post_item" {
 
   filename         = "${path.module}/lambda/items/target/post_item.zip"
   source_code_hash = filebase64sha256("${path.module}/lambda/items/target/post_item.zip")
+
+  layers = [aws_lambda_layer_version.items.arn]
 }
 
 resource "aws_cloudwatch_log_group" "items_post_item" {
