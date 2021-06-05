@@ -1,2 +1,1 @@
 boto3
-boto3_type_annotations_with_docs

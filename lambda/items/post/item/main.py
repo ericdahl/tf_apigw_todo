@@ -3,9 +3,8 @@ import boto3
 import base64
 import uuid
 import datetime
-from boto3_type_annotations.dynamodb import ServiceResource
 
-dynamodb: ServiceResource = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb')
 items = dynamodb.Table('items')
 
 

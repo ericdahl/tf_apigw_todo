@@ -1,9 +1,7 @@
 import json
 import boto3
-from boto3_type_annotations.dynamodb import ServiceResource
-from boto3.dynamodb.conditions import Key
 
-dynamodb : ServiceResource = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb')
 items = dynamodb.Table("items")
 
 
