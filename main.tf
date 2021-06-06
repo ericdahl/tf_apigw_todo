@@ -62,6 +62,7 @@ resource "aws_apigatewayv2_deployment" "default" {
 
     jsonencode(aws_lambda_function.items_get_index),
     jsonencode(aws_lambda_function.items_post_item),
+    jsonencode(aws_lambda_function.items_delete_item),
 
     )))
   }

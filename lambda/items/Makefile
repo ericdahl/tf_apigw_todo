@@ -2,7 +2,7 @@
 
 # install: package
 #
-package: target/get_index.zip target/get_item.zip target/post_item.zip target/layer.zip
+package: target/get_index.zip target/get_item.zip target/post_item.zip target/layer.zip target/delete_item.zip
 
 target/get_index.zip: get/item/main.py
 	python3.7 -m venv target/venv_get_index
@@ -10,6 +10,7 @@ target/get_index.zip: get/item/main.py
 	pip install -r get/index/requirements.txt -t target/package_get_index
 	cp get/index/*.py target/package_get_index/
 	(cd target/package_get_index && zip -r ../get_index.zip .)
+
 	
 target/get_item.zip: get/item/main.py
 	python3.7 -m venv target/venv_get_item
@@ -17,6 +18,13 @@ target/get_item.zip: get/item/main.py
 	pip install -r get/item/requirements.txt -t target/package_get_item
 	cp get/item/*.py target/package_get_item/
 	(cd target/package_get_item && zip -r ../get_item.zip .)
+
+target/delete_item.zip: delete/item/main.py
+	python3.7 -m venv target/venv_delete_item
+	. ./target/venv_delete_item/bin/activate; \
+	pip install -r delete/item/requirements.txt -t target/package_delete_item
+	cp delete/item/*.py target/package_delete_item/
+	(cd target/package_delete_item && zip -r ../delete_item.zip .)
 
 target/post_item.zip: post/item/main.py
 	python3.7 -m venv target/venv_post_item
