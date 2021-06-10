@@ -21,8 +21,8 @@ resource "aws_lambda_function" "items_delete_item" {
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.8"
 
-  filename         = "${path.module}/lambda/items/target/delete_item.zip"
-  source_code_hash = filebase64sha256("${path.module}/lambda/items/target/delete_item.zip")
+  filename         = "${path.module}/lambda/items/target/delete/item.zip"
+  source_code_hash = filebase64sha256("${path.module}/lambda/items/target/delete/item.zip")
 
   layers = [aws_lambda_layer_version.items.arn]
 }

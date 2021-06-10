@@ -21,8 +21,8 @@ resource "aws_lambda_function" "items_get_item" {
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.8"
 
-  filename         = "${path.module}/lambda/items/target/get_item.zip"
-  source_code_hash = filebase64sha256("${path.module}/lambda/items/target/get_item.zip")
+  filename         = "${path.module}/lambda/items/target/get/item.zip"
+  source_code_hash = filebase64sha256("${path.module}/lambda/items/target/get/item.zip")
 
   layers = [aws_lambda_layer_version.items.arn]
 }
