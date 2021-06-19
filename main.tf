@@ -10,6 +10,12 @@ provider "aws" {
 resource "aws_apigatewayv2_api" "default" {
   name          = "tf-apigw-dynamo"
   protocol_type = "HTTP"
+
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["*"]
+    allow_headers = ["content-type"]
+  }
 }
 
 resource "aws_cloudwatch_log_group" "default" {
