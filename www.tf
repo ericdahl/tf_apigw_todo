@@ -10,9 +10,9 @@ resource "aws_s3_bucket_object" "www_html" {
   for_each = fileset("${path.module}/www/dist", "**/*.html")
 
   bucket = aws_s3_bucket.www.bucket
-  key = each.value
+  key    = each.value
   source = "${path.module}/www/dist/${each.value}"
-  etag = filemd5("${path.module}/www/dist/${each.value}")
+  etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "text/html"
 
@@ -23,9 +23,9 @@ resource "aws_s3_bucket_object" "www_js" {
   for_each = fileset("${path.module}/www/dist", "**/*.js")
 
   bucket = aws_s3_bucket.www.bucket
-  key = each.value
+  key    = each.value
   source = "${path.module}/www/dist/${each.value}"
-  etag = filemd5("${path.module}/www/dist/${each.value}")
+  etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "application/json"
 
@@ -36,9 +36,9 @@ resource "aws_s3_bucket_object" "www_css" {
   for_each = fileset("${path.module}/www/dist", "**/*.css")
 
   bucket = aws_s3_bucket.www.bucket
-  key = each.value
+  key    = each.value
   source = "${path.module}/www/dist/${each.value}"
-  etag = filemd5("${path.module}/www/dist/${each.value}")
+  etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "text/css"
 

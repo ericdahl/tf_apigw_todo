@@ -66,9 +66,9 @@ resource "aws_apigatewayv2_deployment" "default" {
       jsonencode(aws_apigatewayv2_integration.items_get_index),
       jsonencode(aws_apigatewayv2_route.items_get_index),
 
-    jsonencode(aws_lambda_function.items_get_index),
-    jsonencode(aws_lambda_function.items_post_item),
-    jsonencode(aws_lambda_function.items_delete_item),
+      jsonencode(aws_lambda_function.items_get_index),
+      jsonencode(aws_lambda_function.items_post_item),
+      jsonencode(aws_lambda_function.items_delete_item),
 
     )))
   }
@@ -85,12 +85,12 @@ resource "aws_apigatewayv2_deployment" "default" {
 
 
 module "r53_alias" {
-  count = var.enable_dns_alias ? 1 : 0
+  count  = var.enable_dns_alias ? 1 : 0
   source = "./r53_alias"
 
-  domain_name = var.dns_alias_r53_name
-  zone_id = var.dns_alias_r53_zone_id
-  api_id = aws_apigatewayv2_api.default.id
+  domain_name  = var.dns_alias_r53_name
+  zone_id      = var.dns_alias_r53_zone_id
+  api_id       = aws_apigatewayv2_api.default.id
   api_stage_id = aws_apigatewayv2_stage.dev.id
 }
 
