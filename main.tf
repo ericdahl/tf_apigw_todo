@@ -167,7 +167,7 @@ resource "aws_iam_policy" "lambda_get" {
         {
             "Effect": "Allow",
             "Action": "dynamodb:*",
-            "Resource": "arn:aws:dynamodb:us-east-1:669361545709:table/items"
+            "Resource": "${aws_dynamodb_table.items.arn}"
         }
     ]
 }

@@ -1,4 +1,4 @@
-.PHONY: test clean
+.PHONY: clean
 
 package: lambda target/layer.zip
 

@@ -1,5 +1,4 @@
 - API mark as done  
 - web ui
     - check in dist/
-    - cloudfront?
 - review and cleanup toggles/dns
