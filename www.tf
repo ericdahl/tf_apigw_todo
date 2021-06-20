@@ -4,7 +4,15 @@ resource "aws_s3_bucket" "www" {
   force_destroy = true
 }
 
-# TODO: Set up CloudFront in front, maybe
+resource "aws_s3_bucket_public_access_block" "www" {
+  bucket = aws_s3_bucket.www.bucket
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 resource "aws_s3_bucket_object" "www_html" {
   for_each = fileset("${path.module}/www/dist", "**/*.html")
 
@@ -14,8 +22,6 @@ resource "aws_s3_bucket_object" "www_html" {
   etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "text/html"
-
-  acl = "public-read" # TODO: fixme
 }
 
 resource "aws_s3_bucket_object" "www_js" {
@@ -27,8 +33,6 @@ resource "aws_s3_bucket_object" "www_js" {
   etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "application/json"
-
-  acl = "public-read" # TODO: fixme
 }
 
 resource "aws_s3_bucket_object" "www_css" {
@@ -40,6 +44,28 @@ resource "aws_s3_bucket_object" "www_css" {
   etag   = filemd5("${path.module}/www/dist/${each.value}")
 
   content_type = "text/css"
+}
 
-  acl = "public-read" # TODO: fixme
+resource "aws_s3_bucket_policy" "www_cloudfront" {
+  bucket = aws_s3_bucket.www.bucket
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "CloudFrontAccessToReadObjects",
+            "Effect": "Allow",
+            "Principal": {
+		        "AWS": "${aws_cloudfront_origin_access_identity.www.iam_arn}"
+		    },
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${aws_s3_bucket.www.bucket}/*"
+            ]
+        }
+    ]
+}
+EOF
 }

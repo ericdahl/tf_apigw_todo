@@ -88,7 +88,7 @@ module "r53_alias" {
   count  = var.enable_dns_alias ? 1 : 0
   source = "./r53_alias"
 
-  domain_name  = var.dns_alias_r53_name
+  domain_name  = var.api_r53_dns_name
   zone_id      = var.dns_alias_r53_zone_id
   api_id       = aws_apigatewayv2_api.default.id
   api_stage_id = aws_apigatewayv2_stage.dev.id
