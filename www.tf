@@ -4,7 +4,6 @@ resource "aws_s3_bucket" "www" {
   force_destroy = true
 }
 
-# TODO: Split up into javascript/css/html to set Content-Type
 # TODO: Set up CloudFront in front, maybe
 resource "aws_s3_bucket_object" "www_html" {
   for_each = fileset("${path.module}/www/dist", "**/*.html")
